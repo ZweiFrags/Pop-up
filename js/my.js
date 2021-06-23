@@ -1,158 +1,147 @@
-//var imgs = [document.getElementsByTagName('img')];
-// var imgs = [document.querySelectorAll('img')];
 var items = document.querySelectorAll('[data-ppp]');
-// for(var i = 0; i < inputs.length; i++) {
-//   if(inputs[i].type.toLowerCase() == 'text') {
-//       alert(inputs[i].value);
-//   }
-// }
-var tmdiv ="";
-//testing change
+var tmdiv;
+var tmfgr;
+var opened;
+var allElAttr;
+var index;
+var currentImgIndex;
+var pppImg;
+var ArrAllElAttr;
+var lnghtofarr;
+
+// create an gallery if there is data-ppp-gal
+function checkGallery(item){
+  if (item.hasAttribute("data-ppp-gal")) {
+    console.log(item.getAttribute('data-ppp-gal'));
+    var trgtAttr = item.getAttribute('data-ppp-gal');
+    var allElAttr = document.querySelectorAll('[data-ppp-gal="' + trgtAttr + '"]');
+    console.log(allElAttr);
+    ArrAllElAttr = Array.from(allElAttr); //create array of elements that are contains in our gallery
+    lnghtofarr = ArrAllElAttr.length;
+      var arrowhldr = document.createElement('div');
+      arrowhldr.className = "ppp_cntrls";
+      arrowhldr.innerHTML = '<div class="ppp_prev_btn" onclick="showimg(-1)">〈</div>     <div class="ppp_next_btn" onclick="showimg(1)">〉</div>';
+      tmfgr.firstChild.appendChild(arrowhldr);
+      ArrAllElAttr.forEach((item, index)  => {
+        if(item.classList.contains('opened')){
+          console.log('index = ' + index);
+          currentImgIndex = index;
+      }
+      //controls for gallery ^
+      })
+  }
+}
+
+
+function showimg(n){
+  var fndpppinner = document.getElementsByClassName('ppp_inner'); //Looking for pop-up
+  var pppImg = fndpppinner[0].getElementsByTagName('img'); //looking for image in pop-up
+  var sumofIndex = (currentImgIndex + n);
+  pppImg[0].classList.add('hddn_img');
+  setTimeout(function(){pppImg[0].classList.remove('hddn_img')}, 20);
+  currentImgIndex = sumofIndex;
+  if(currentImgIndex == lnghtofarr){
+    currentImgIndex = 0;
+  }
+  if(currentImgIndex == -1){
+    currentImgIndex = lnghtofarr - 1;
+  }
+  var currrentImgSrc = ArrAllElAttr[currentImgIndex].getAttribute('src'); //Looking for src of next/previous image
+  console.log(currrentImgSrc);
+    
+  
+
+      pppImg[0].src = currrentImgSrc; // changing pop-up image
+
+        var imgcaption = fndpppinner[0].getElementsByTagName('figcaption'); //looking for title/caption of pop-up
+        if( ArrAllElAttr[currentImgIndex].hasAttribute("data-ppp-title")){
+          var currentImgTtl = ArrAllElAttr[currentImgIndex].getAttribute('data-ppp-title'); //Getting value of title/caption(if present)
+          imgcaption[0].innerHTML = currentImgTtl;//changing caption/title of image in pop-up
+        }else{
+          imgcaption[0].innerHTML = '';
+        }
+  console.log(pppImg[0].classList);
+
+  
+
+}
+
+
+
+function checkTitle(item){
+    var itemsrc = item.getAttribute('src');
+    tmfgr = document.createElement('div');
+    tmfgr.className = "ppp";
+    var fgrttl = "";
+if( item.hasAttribute("data-ppp-title")){
+  var fgrttl = '<figcaption class="white">' + item.getAttribute('data-ppp-title') + '</figcaption>'; //create figcaption with title
+  }else{
+  var fgrttl = '<figcaption class="white"></figcaption>';//create figcaption without title
+  }
+  tmfgr.innerHTML = '<figure class="ppp_hldr"><div class="ppp_inner"><img class="marginppp" src="' + itemsrc + '">' + fgrttl +'</div><div class="ppp_close" onclick="removePPP">✕</div></figure>';
+    document.body.appendChild(tmfgr);
+}
 
 items.forEach(function(item1){
  item1.addEventListener('click', function(e){
     //onclick=console.log(e.getAttribute("src"));
-    var itemsrc = e.target.attributes.src;
+    var itemsrc = e.target.getAttribute('src');
     //console.log(e.attributes.src.nodeValue);
     var itemcntnt = e.target.innerHTML;
+    e.target.classList.add('opened');
+    opened = e.target;
     console.log(e.target.attributes.src);
-    if( e.target.attributes.src !== undefined){
-      if( e.target.hasAttribute("data-ppp-title")){
-        var itemsrc = e.target.attributes.src.nodeValue;
-        var tmfgr = document.createElement('div');
-        var fgrttl = e.target.getAttribute('data-ppp-title');
-        tmfgr.className = "ppp";
-        tmfgr.innerHTML = '<figure class="ppp_hldr"><div class="ppp_inner"><img class="marginppp" src="' + itemsrc + '"><figcaption class="white">' + fgrttl +'</figcaption></div><div class="ppp_close" onclick="removePPP">✕</div></figure>';
-        document.body.appendChild(tmfgr);
-      }else{
-        var itemsrc = e.target.attributes.src.nodeValue;
-        var tmfgr = document.createElement('div');
-        tmfgr.className = "ppp";
-        tmfgr.innerHTML = '<figure class="ppp_hldr"><div class="ppp_inner"><img class="marginppp" src="' + itemsrc + '"></div><div class="ppp_close" onclick="removePPP">✕</div></figure>';
-        document.body.appendChild(tmfgr);
-      }
+    if( e.target.attributes.src !== undefined){ //is img
 
-      
-      // var itemsrc = e.target.attributes.src.nodeValue;
-      // var tmdiv = document.createElement('div');
-      // tmdiv.className = "ppp";
-      // tmdiv.innerHTML = '<div class="ppp_hldr"><div class="ppp_inner"><img class="marginppp" src="' + itemsrc + '"></div><div class="ppp_close" onclick="removePPP">✕</div></div>';
-      // document.body.appendChild(tmdiv);
+      checkTitle(e.target);
+
+      checkGallery(e.target);
+
       ///////// if picture
-    }else{
+    }else{ // not img. Create div with some content
       var tmdiv = document.createElement('div');
       tmdiv.className = "ppp";
       tmdiv.innerHTML = '<div class="ppp_hldr"><div class="ppp_inner">' + itemcntnt + '</div><div class="ppp_close" onclick="removePPP">✕</div></div>';
       document.body.appendChild(tmdiv);
     };
-
-      ///////////////// data-gal
-    if (e.target.hasAttribute("data-ppp-gal")) {
-      console.log(e.target.getAttribute('data-ppp-gal'));
-      var trgtAttr = e.target.getAttribute('data-ppp-gal');
-      var allAttr = document.querySelectorAll('[data-ppp-gal="' + trgtAttr + '"]');
-      var pppGalwrap = document.querySelector('.ppp_inner');
-      console.log(allAttr);
-      pppGalwrap.addEventListener('click', function(){
-        console.log("TEST");
-      })
-    }else{
-      console.log("We fucked up")
-    };
-    // document.getElementsByTagName('body')[0].removeChild(tmdiv);
     if (e.target.hasAttribute("data-ppp-pos")){
       console.log("teeest");
       var pppclass = document.querySelector(".ppp");
-      pppclass.style.justifyContent = e.target.getAttribute('data-ppp-pos');
+      pppclass.style.justifyContent = e.target.getAttribute('data-ppp-pos'); // change position of pop-up
     }else{
       console.log("NO DATA-PPP-POS");
     };
 
-    
+    ///// find data id
     if (e.target.hasAttribute("data-ppp-id")){
-      console.log("teeest");
-      var trgtid = e.target.getAttribute('data-ppp-id');
-      console.log(trgtid)
+      var trgtid = e.target.getAttribute('data-ppp-id')
       if(document.contains(document.getElementById(trgtid)) && document.getElementById(trgtid).hasAttribute("alt")){
-        console.log("Photo with id");
-        var itemsrc = document.getElementById(trgtid).attributes.src.nodeValue;
+        var itemsrc = document.getElementById(trgtid).getAttribute('src');
         var tmdiv = document.createElement('div');
         tmdiv.className = "ppp";
         tmdiv.innerHTML = '<div class="ppp_hldr"><div class="ppp_inner"><img class="marginppp" src="' + itemsrc + '"></div><div class="ppp_close" onclick="removePPP">✕</div></div>';
-        document.body.appendChild(tmdiv);
+        document.body.appendChild(tmdiv);   // create pop-up(image) on click on the button or anything else with same id as data-ppp-id value
       }else{
-        console.log("No photo with this id");
       var itemcntnt = document.getElementById(trgtid).innerHTML;
       var tmdiv = document.createElement('div');
       tmdiv.className = "ppp";
       tmdiv.innerHTML = '<div class="ppp_hldr"><div class="ppp_inner">' + itemcntnt + '</div><div class="ppp_close" onclick="removePPP">✕</div></div>';
-      document.body.appendChild(tmdiv);
+      document.body.appendChild(tmdiv); // create pop-up(text) on click on the button or anything else with same id as data-ppp-id value
       };
     }else{
       console.log("NO DATA-PPP-ID");
     };
-    //get element with id(e.target.getData-ppp)
-    // if (e.target.hasAttribute("data-ppp-id")){
-    //   console.log("teeest");
-    //   var trgtid = e.target.getAttribute('data-ppp-id')
-    //   if(document.containt(document.getElementById(trgtid)) && e.target.hasAttribute("human-photo")){
-    //     console.log("Photo with id");
-    //     var itemsrc = e.target.attributes.src.nodeValue;
-    //     var tmdiv = document.createElement('div');
-    //     tmdiv.className = "ppp";
-    //     tmdiv.innerHTML = '<div class="ppp_hldr"><div class="ppp_inner"><img class="marginppp" src="' + itemsrc + '"></div><div class="ppp_close" onclick="removePPP">✕</div></div>';
-    //     document.body.appendChild(tmdiv);
-    //   }else{
-    //     console.log("No photo with this id");
-    //   var tmdiv = document.createElement('div');
-    //   tmdiv.className = "ppp";
-    //   tmdiv.innerHTML = '<div class="ppp_hldr"><div class="ppp_inner">' + itemcntnt + '</div><div class="ppp_close" onclick="removePPP">✕</div></div>';
-    //   document.body.appendChild(tmdiv);
-    //   };
-    // }else{
-    //   console.log("NO DATA-PPP-ID");
-    // };
-
   });
 });
+
 document.addEventListener('click',function(e){  
-    //-----CLOSE
-    if(e.target && e.target.className == "ppp_close"){
-      console.log(e.target.className + '!!!' )
-      //do something  
-      //var ppprem = document.getElementByClassName('ppp');
+    //-----close
+    if(e.target && e.target.className == "ppp_close"){ 
       var ppprem = e.target.closest('.ppp');
-      //console.log(e.target.className + '!!!' + ppprem.className)
-      //var parentDiv = ppprem.parentNode;
-      //document.body.removeChild(ppprem);
       ppprem.remove();
+      opened.classList.remove('opened');
     };
 });
-// document.addEventListener('click', function(e){
-//   if (e.target.hasAttribute("data-ppp-id")){
-//     console.log("teeest");
-//     var trgtid = e.target.getAttribute('data-ppp-id');
-//     console.log(trgtid)
-//     if(document.contains(document.getElementById(trgtid)) && e.target.hasAttribute("human-photo")){
-//       console.log("Photo with id");
-//       var itemsrc = document.getElementById(trgtid).attributes.src.nodeValue;
-//       var tmdiv = document.createElement('div');
-//       tmdiv.className = "ppp";
-//       tmdiv.innerHTML = '<div class="ppp_hldr"><div class="ppp_inner"><img class="marginppp" src="' + itemsrc + '"></div><div class="ppp_close" onclick="removePPP">✕</div></div>';
-//       document.body.appendChild(tmdiv);
-//     }else{
-//       console.log("No photo with this id");
-//     var itemcntnt = document.getElementById(trgtid).innerHTML;
-//     var tmdiv = document.createElement('div');
-//     tmdiv.className = "ppp";
-//     tmdiv.innerHTML = '<div class="ppp_hldr"><div class="ppp_inner">' + itemcntnt + '</div><div class="ppp_close" onclick="removePPP">✕</div></div>';
-//     document.body.appendChild(tmdiv);
-//     };
-//   }else{
-//     console.log("NO DATA-PPP-ID");
-//   };
-// })
-/// data-ppp-gal
 
 
 function removePPP(e) {
