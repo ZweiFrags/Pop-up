@@ -93,3 +93,10 @@ img {
 .ppp_prev_btn::before{
   right: -10%;
 }
+.ppp{
+  opacity: 1;
+  transition: opacity linear 0.5s;
+}
+.ppp.TESTtransition {
+  opacity: 0;
+}
