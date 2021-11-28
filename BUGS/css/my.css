@@ -100,3 +100,18 @@ img {
 .ppp.TESTtransition {
   opacity: 0;
 }
+.center{
+  text-align:center
+}
+.margin {
+  margin-bottom: 1vw;
+}
+/* .left{
+
+}
+.right{
+
+}
+.top{
+
+} */

@@ -1,0 +1,103 @@
+
+img {
+  max-width: 100%;
+}
+.ppp {
+  position: fixed;
+  width: 100vw;
+  height: 100vh;
+  left: 0%;
+  top: 0%;
+  z-index: 100;
+  background: #fffc;
+  backdrop-filter: blur(5px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.ppp_close {
+  position: absolute;
+  color: black;
+  top: 10px;
+  right: 10px;
+  cursor: pointer;
+  text-shadow: white 0 0 2px;
+}
+.marginppp {
+  margin: 0 auto;
+  max-height: 90vh;
+  display: block;
+  transition: all ease-in 0.3s;
+}
+.ppp_hldr {
+  /* margin: 0 auto; */
+  display: inline-block;
+  position: relative;
+  border: #fff 5px solid;
+  border-radius: 10px;
+  max-width: 90%;
+  box-shadow: #0003 0px 0px 20px;
+}
+.white {
+  background-color: white;
+}
+.ppp_figcaption {
+  padding: 5px 0 0 0;
+}
+[data-ppp]{
+  cursor: pointer;
+}
+
+.ppp_cntrls{
+  position: absolute;
+  width: 100%;
+  top: 50%;
+}
+.ppp_cntrls > * {
+  position: absolute;
+  cursor: pointer;
+  top: -.5em;
+  line-height: 1em;
+  font-size: xx-large;
+  z-index: 0;
+
+}
+.ppp_next_btn{
+  right: -0.5em;
+}
+.ppp_prev_btn{
+  left: -0.5em;
+}
+
+.ppp_cntrls > *::before{
+  content: '';
+    background-color: white;
+    filter: blur(10px);
+    height: 90%;
+    top: 5%;
+    width: 70%;
+    border-radius: 50%;
+    position: absolute;
+    display: inline-block;
+    z-index: -1;
+}
+.opened{
+
+}
+.hddn_img{
+  opacity: 0;
+  transition: none;
+}
+.ppp_next_btn::before{
+  left: -10%;
+}
+.ppp_prev_btn::before{
+  right: -10%;
+}
+.ppp{
+  opacity: 1;
+  transition: opacity linear 0.5s;
+}
+.ppp.TESTtransition {
+  opacity: 0;
+}
