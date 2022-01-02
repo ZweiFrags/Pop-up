@@ -129,7 +129,8 @@ document.addEventListener('click', function(e) {
     }
 
     //-----close
-    if (e.target && e.target.className == "ppp_close") {
+    // if (e.target && e.target.className == "ppp_close") {
+    if (e.target && ['ppp_close', 'ppp'].some(className => e.target.classList.contains(className))) {
         var ppprem = e.target.closest('.ppp');
         ppprem.classList.add('TESTtransition');
         setTimeout(function() { ppprem.remove() }, 500);
@@ -152,10 +153,17 @@ document.addEventListener('click', function(e) {
         checkTitle(e.target)
         checkGallery(e.target)
         if (e.target.hasAttribute("data-ppp-pos")) {
-            var pppclass = document.querySelector(".ppp"); //get the element with ppp class
-            pppclass.style.justifyContent = e.target.getAttribute('data-ppp-pos'); // change position of pop-up(by value of data-ppp-pos)
+            // var pppclass = document.querySelector(".ppp"); //get the element with ppp class
+            // pppclass.classList.add
+            console.log(e.target.getAttribute("data-ppp-pos"))
+            document.getElementsByClassName("ppp")[0].classList.add(e.target.getAttribute("data-ppp-pos")) // change position of pop-up(by value of data-ppp-pos)
+
         }
 
 
     }
+
+    //   if(e.taget)document.getElementById('ppp').addEventListener('click',function (event){
+    //     event.stopPropagation();
+    //  });
 });
