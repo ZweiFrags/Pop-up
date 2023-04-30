@@ -8,8 +8,8 @@
     <title>Document</title>
     <!-- my css,js files -->
     <link rel="stylesheet" href="css/bootstrap-grid.css">
-    <link rel="stylesheet" href="css/my.css">
-    <link rel="stylesheet" href="css/prism.css">
+    <link rel="stylesheet" href="css/zweifrags.popup.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css">
 </head>
 
 <body>
@@ -77,7 +77,7 @@
                 <div class="row margin">
                     <div class="col-6">
                         <a>
-                            <img id="id1" src="img/pexels-photo-319934.jpeg" data-ppp>
+                            <img id="id1" src="img/01.jpg" data-ppp>
                         </a>
                     </div>
                     <div class="col-6">Но это только начало. [имя плагина] так же способен открывать в поп-апе картинки так же благодаря аттрибуту data-ppp</div>
@@ -85,7 +85,7 @@
                 <div class="row margin">
                     <div class="col-6">
                         <a>
-                            <img src="img/pexels-photo-6516543.jpeg" data-ppp data-ppp-title="Amazing mountains">
+                            <img src="img/02.jpg" data-ppp data-ppp-title="Some boats">
                         </a>
                     </div>
                     <div class="col-6">И на сцену выходит аттрибут data-ppp-title значение которого будет помещаться в figcaption. Этот плагин использует <a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Element/figure">figure </a>для создания поп-апов.</div>
@@ -93,13 +93,13 @@
                 <div class="row margin">
                     <div class="col-6">
                         <a>
-                            <img src="img/pexels-photo-7406919.jpeg" data-ppp data-ppp-gal="firstgal" data-ppp-title="my value of data-ppp-gal is 'firstgal', so i form a gallery with another image with same value">
+                            <img src="img/03.jpg" data-ppp data-ppp-gal="firstgal" data-ppp-title="title1">
                         </a>
                         <a>
-                            <img src="img/pexels-photo-7768447.jpeg" data-ppp data-ppp-gal="firstgal" data-ppp-title="my value of data-ppp-gal is 'firstgal', so i form a gallery with another image with same value">
+                            <img src="img/04.jpg" data-ppp data-ppp-gal="firstgal" data-ppp-title="title2">
                         </a>
                         <a>
-                            <img src="img/pexels-photo-7911934.jpeg" data-ppp data-ppp-gal="secondgal" data-ppp-title="my value of data-ppp-gal is 'secondgal', so i do not belong to the gallery 'firstgal'">
+                            <img src="img/05.jpg" data-ppp data-ppp-gal="firstgal" data-ppp-title="title3">
                         </a>
                     </div>
                     <div class="col-6">Так же плагин умеет создавать галереи благодаря аттрибуту data-ppp-gallery, значение которого указывает на принодлежность к одной из галерей. Для создания галереи вам потребуеться 2 элемента с одним и тем же значением аттрибута data-ppp-gal.</div>
@@ -108,10 +108,10 @@
                 <div class="row margin">
                     <div class="col-6">
                         <a>
-                            <img src="img/pexels-photo-5927911.jpeg" data-ppp data-ppp-gal="Thethirdgal" data-ppp-title="I am on the right" data-ppp-pos="right">
+                            <img src="img/01.jpg" data-ppp data-ppp-gal="Thethirdgal" data-ppp-title="I am on the right" data-ppp-pos="right">
                         </a>
                         <a>
-                            <img src="img/pexels-photo-5840714.jpeg" data-ppp data-ppp-gal="Thethirdgal" data-ppp-title="And i am on the right too" data-ppp-pos="right">
+                            <img src="img/02.jpg" data-ppp data-ppp-gal="Thethirdgal" data-ppp-title="And i am on the right too" data-ppp-pos="right">
                         </a>
                     </div>
                     <div class="col-6">Вы так же можете комбинировать все выше перечисленные аттрибуты</div>
@@ -119,14 +119,14 @@
                 <br>
                 <div class="row margin">
                     <div class="col-6">
-                        <button onmouseover="this.innerHtml='You thought it was a button?'" data-href="ajax" href="data.html" data-ajax-id="DIO">Button</button>
+                        <button onmouseover="this.innerHtml='Another button'" data-href="ajax" href="data.html" data-ajax-id="cliffTxt">Button</button>
                     </div>
                     <div class="col-6">Но если вы собираетесь работать с ajax, вам прийдеться использовать другие аттрибуты. Data-href="ajax" используеться для указаня, что для задачи нам потребуеться ajax, а href="data.html" укажет сайт, на котором нужно искать элемент,
                         а data-ajax-id уже укажет элемент который нам нужен(при помощи ID).</div>
                 </div>
                 <div class="row margin">
                     <div class="col-6">
-                        <button onmousehover="this.innerHtml='You thought it was a button?'" data-href="ajax" href="data.html" data-ajax-id="DIOimg">Button</button>
+                        <button onmousehover="this.innerHtml='Button'" data-href="ajax" href="data.html" data-ajax-id="cliff">Button</button>
                     </div>
                     <div class="col-6">Вы так же можете это использовать для картинок.</div>
                 </div>
@@ -136,33 +136,13 @@
                     </div>
                     <div class="col-6">
                         <a>
-                            <img src="https://images.pexels.com/photos/674010/pexels-photo-674010.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500" id="theid">
+                            <img src="img/01.jpg" id="theid">
                         </a>
                     </div>
                 </div>
-                <div class="row margin">
-                    <div class="col-6">
-                        <button data-ppp-id="onemore">Button</button>
-                    </div>
-                    <div class="col-6" id="onemore">some text</div>
-                </div>
-
-
-
-
-
-
-
-
-
-
-
-
             </div>
         </div>
-        <h4>All images belongs to <a href="https://www.pexels.com/ru-ru/@freestockpro">Alexandr Podvalny</h4>
-  
-  <script src="js/my.js"></script>
-  <script src="js/prism.js"></script>
+  <script src="js/zweifrags.popup.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
 </body>
 </html>

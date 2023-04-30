@@ -37,7 +37,8 @@ function GetSomeData() {
             const parser = new DOMParser();
             const htmlDocument = parser.parseFromString(text, "text/html");
             const section = htmlDocument.getElementById(idOfAjax); // element that we are going to append
-            if (section.attributes.src !== undefined) { //is img
+            if (section.attributes.src !== undefined || section.attributes.data-src !== undefined) { 
+            // if (section.attributes.src !== null || section.attributes.data-src !== null) { //is img
 
                 checkTitle(section);
 
@@ -50,16 +51,20 @@ function GetSomeData() {
 
 function checkImage(item) {
     //var out;
-    var itemsrc = item.getAttribute('src');
-    if (item.attributes.src !== undefined) {
+    let itemsrc = item.getAttribute('src');
+    let itemDatasrc = item.getAttribute('data-src');
+     
+    if(itemsrc || itemDatasrc){
+    // if (item.attributes.src !== undefined || item.attributes.data-src !== undefined) {
         out = document.createElement('img');
-        out.setAttribute("src", item.attributes.src.value)
+        let imgSrc = (itemsrc !== null) ? itemsrc : itemDatasrc;
+        out.setAttribute("src", imgSrc)
     } else {
         var txtWrap = document.createElement('div');
         txtWrap.classList.add("ppp-txtwrap");
         txtWrap.insertAdjacentHTML('beforeend', item.innerHTML)
         out = txtWrap
-        console.log(item.innerHTML + ' ' + typeof(out))
+        // console.log(item.innerHTML + ' ' + typeof(out))
             //out = txtWrap.appendChild(item.innerHTML);
     }
     return out
@@ -69,18 +74,16 @@ function buildMdl(pppVal) {
     var tmdiv = document.createElement('div');
     tmdiv.className = "ppp";
     if (typeof(pppVal) === 'object') { pppVal = pppVal.outerHTML; }
-    tmdiv.innerHTML = '<div class="ppp_hldr"><figure class="ppp_inner marginppp">' + pppVal + '</figure><div class="ppp_close">✕</div></div>';
+    tmdiv.innerHTML = '<div class="ppp_hldr"><figure class="ppp_inner marginppp">' + pppVal + '</figure><div class="ppp_close">×</div></div>';
     document.body.appendChild(tmdiv);
-    document.querySelectorAll(".ppp")[0].classList.add('TESTtransition');
-    setTimeout(function() { document.querySelectorAll(".ppp")[0].classList.remove('TESTtransition') }, 20);
+    // document.querySelectorAll(".ppp")[0].classList.add('TESTtransition');
+    // setTimeout(function() { document.querySelectorAll(".ppp")[0].classList.remove('TESTtransition') }, 20);
 };
 
 function showimg(n) {
     var fndpppinner = document.getElementsByClassName('ppp_inner'); //Looking for pop-up
     var pppImg = fndpppinner[0].getElementsByTagName('img'); //looking for image in pop-up
     var sumofIndex = (currentImgIndex + n); // this thing will scroll your images(if it is gallery)
-    pppImg[0].classList.add('hddn_img');
-    setTimeout(function() { pppImg[0].classList.remove('hddn_img') }, 20);
     currentImgIndex = sumofIndex;
     if (currentImgIndex == lnghtofarr) { //if we try to scroll more images than we have
         currentImgIndex = 0; //we will scroll to the first
@@ -88,9 +91,14 @@ function showimg(n) {
     if (currentImgIndex == -1) { //if we try to scroll less images than we have
         currentImgIndex = lnghtofarr - 1; //we will scroll to the last image
     }
-    var currrentImgSrc = ArrAllGalAttr[currentImgIndex].getAttribute('src'); //Looking for src of next/previous image
+
+    pppImg[0].classList.add('-opaq');
+    let itemsrc = ArrAllGalAttr[currentImgIndex].getAttribute('src');
+    let itemDatasrc = ArrAllGalAttr[currentImgIndex].getAttribute('data-src');
+    let currrentImgSrc = (itemsrc !== null) ? itemsrc : itemDatasrc; //Looking for src of next/previous image
 
     pppImg[0].src = currrentImgSrc; // changing pop-up image
+    setTimeout(function() { pppImg[0].classList.remove('-opaq') }, 100);
     var imgcaption = fndpppinner[0].getElementsByTagName('figcaption'); //looking for title/caption of pop-up
     if (ArrAllGalAttr[currentImgIndex].hasAttribute("data-ppp-title")) { //if there is present data-ppp-title
         var currentImgTtl = ArrAllGalAttr[currentImgIndex].getAttribute('data-ppp-title'); //Getting value of title/caption(if present)
@@ -104,7 +112,7 @@ function checkTitle(item) {
     // var itemsrc = item.getAttribute('src');
     fgrttl = document.createElement('div');
     // tmfgr.className = "ppp TESTtransition";
-    console.log(item.getAttribute("data-ppp-title"))
+    // console.log(item.getAttribute("data-ppp-title"))
     if (item.hasAttribute("data-ppp-title")) {
         fgrttl.innerHTML = '<figcaption class="white">' + item.getAttribute('data-ppp-title') + '</figcaption>'; //create figcaption with title
     } else {
@@ -119,6 +127,7 @@ document.addEventListener('click', function(e) {
     ///// find data id
     if (e.target.hasAttribute("data-ppp-id")) {
         var trgtid = e.target.getAttribute('data-ppp-id') //get the value of attribute data-pp-id
+
         if (document.contains(document.getElementById(trgtid)) && document.getElementById(trgtid).getAttribute('src') != undefined) { //if image
             var itemid = document.getElementById(trgtid);
             buildMdl(itemid)
@@ -130,10 +139,10 @@ document.addEventListener('click', function(e) {
 
     //-----close
     // if (e.target && e.target.className == "ppp_close") {
-    if (e.target && ['ppp_close', 'ppp'].some(className => e.target.classList.contains(className))) {
+    if (e.target && ['ppp_close', 'ppp'].includes(e.target.className)) {
         var ppprem = e.target.closest('.ppp');
-        ppprem.classList.add('TESTtransition');
-        setTimeout(function() { ppprem.remove() }, 500);
+        ppprem.classList.add('ppp_out');
+        setTimeout(function() { ppprem.remove() }, 900);
         if (opened.classList.contains('opened')) {
             opened.classList.remove('opened');
         }
@@ -155,15 +164,15 @@ document.addEventListener('click', function(e) {
         if (e.target.hasAttribute("data-ppp-pos")) {
             // var pppclass = document.querySelector(".ppp"); //get the element with ppp class
             // pppclass.classList.add
-            console.log(e.target.getAttribute("data-ppp-pos"))
-            document.getElementsByClassName("ppp")[0].classList.add(e.target.getAttribute("data-ppp-pos")) // change position of pop-up(by value of data-ppp-pos)
-
+            // console.log(e.target.getAttribute("data-ppp-pos"))
+            document.getElementsByClassName("ppp_hldr")[0].classList.add(e.target.getAttribute("data-ppp-pos")) // change position of pop-up(by value of data-ppp-pos)
+            
         }
 
 
     }
 
-    //   if(e.taget)document.getElementById('ppp').addEventListener('click',function (event){
-    //     event.stopPropagation();
-    //  });
+  //   if(e.taget)document.getElementById('ppp').addEventListener('click',function (event){
+  //     event.stopPropagation();
+  //  });
 });
