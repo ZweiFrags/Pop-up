@@ -16,7 +16,7 @@
     <div class="container">
         <div class="row">
             <div class="col-12">
-                <h1 class="center">Meet the [name of plugin]</h1>
+                <h1 class="center">Meet the Zwei-up</h1>
             </div>
         </div>
         <div class="row">
@@ -35,7 +35,7 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-12">The [plug-in name] is lightweight, written on pure js, dead simple</div>
+                    <div class="col-12">The Zwei-up is lightweight, written on pure js, dead simple solution for all your popup needs</div>
                 </div>
                 <div class="row">
                     <div class="col-12">
@@ -44,12 +44,11 @@
                 </div>
                 <div class="row">
                     <div class="col-12">
-                        <li>
-                            <ul>Step 1. Скачайте архив</ul>
-                            <ul>Step 2. Извлечите из архива содержимое папки dist</ul>
-                            <ul>step 3. Откройте папку JS и удалите все остальные файлы. кроме нужного для вас. Если вы хотите изучить и/или улучшить плагин, то советую вам оставить main.js файл, иначе оставьте main.min.js файл</ul>
-                            <ul>Step 4. Прочитайте usage</ul>
-                        </li>
+                        <ul>
+                            <li>Step 1. Download archive</li>
+                            <li>Step 2. Extract the contents of the dist folder from the archive</li>
+                            <li>Step 3. Read Usage</li>
+                        </ul>
                     </div>
                 </div>
                 <div class="row">
@@ -58,21 +57,10 @@
                     </div>
                 </div>
                 <div class="row margin">
-                    <div class="col-6" data-ppp>Click me to open in modal!</div>
+                    <div class="col-6"style="text-align: center; margin: auto;" data-ppp>Click me to open in modal!</div>
                     <div class="col-6">
-                        Add <code class="inl">data-ppp</code> attribute to the element you want to open in modal:
-                        <script type="text/plain" class="language-markup">
-                          <div data-ppp>Click me to open in modal!</div>
-                        </script>
-                        <pre class="language-markup"><code>&lt;p>Example&lt;/p></code></pre>
-                        <code class="language-markup">&lt;p>Example&lt;/p></code>
-                          
-                        <pre><code><div  data-ppp>Click me to open in modal!</div></code></pre> Благодаря аттрибуту data-ppp текст, что находиться слева будет открыт в поп-апе при нажатии на него</div>
-                </div>
-                <div class="row margin">
-                    <div class="col-6" data-ppp data-ppp-pos="right">I will appear on the left side of the screen!</div>
-                    <div class="col-6">Так оно и есть. Поп-ап появиться в левой части экрана изза аттрибута data-ppp-pos. Для позиционирования поп-апа используеться<a href="https://developer.mozilla.org/en-US/docs/Web/CSS/justify-content">justify-content</a>, а допустимые
-                        значения это: "flex-start", "flex-end" and "center"</div>
+                        Add <span class="token tag">data-ppp</span> attribute to the element you want to open in modal:
+                        <pre class="language-markup"><code>&lt;p data-ppp>Click me to open in modal!&lt;/p></code></pre>
                 </div>
                 <div class="row margin">
                     <div class="col-6">
@@ -80,7 +68,9 @@
                             <img id="id1" src="img/01.jpg" data-ppp>
                         </a>
                     </div>
-                    <div class="col-6">Но это только начало. [имя плагина] так же способен открывать в поп-апе картинки так же благодаря аттрибуту data-ppp</div>
+                    <div class="col-6">Zwei-up is also capable of creating pop-ups with images
+                    <pre class="language-markup"><code>&lt;img src="src" data-ppp></code></pre>
+                    </div>
                 </div>
                 <div class="row margin">
                     <div class="col-6">
@@ -88,7 +78,9 @@
                             <img src="img/02.jpg" data-ppp data-ppp-title="Some boats">
                         </a>
                     </div>
-                    <div class="col-6">И на сцену выходит аттрибут data-ppp-title значение которого будет помещаться в figcaption. Этот плагин использует <a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Element/figure">figure </a>для создания поп-апов.</div>
+                    <div class="col-6">This plug-in uses tag <a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Element/figure">figure </a> for pop-ups. Thanks to this, you can add captions to images
+                    <pre class="language-markup"><code>&lt;img src="src" data-ppp data-ppp-title="text"></code></pre>
+                    </div>
                 </div>
                 <div class="row margin">
                     <div class="col-6">
@@ -102,19 +94,21 @@
                             <img src="img/05.jpg" data-ppp data-ppp-gal="firstgal" data-ppp-title="title3">
                         </a>
                     </div>
-                    <div class="col-6">Так же плагин умеет создавать галереи благодаря аттрибуту data-ppp-gallery, значение которого указывает на принодлежность к одной из галерей. Для создания галереи вам потребуеться 2 элемента с одним и тем же значением аттрибута data-ppp-gal.</div>
+                    <div class="col-6">The plugin can also create galleries, just add the <span class="token tag">data-ppp-gallery</span> attribute. Two elements with same value of <span class="token tag">data-pp-gal</span> will make a gallery
+                    <pre class="language-markup"><code>&lt;img src="first_src" data-ppp data-ppp-gal="1"></code><code>&lt;img src="second_src" data-ppp data-ppp-gal="1"></code><code>&lt;img src="third_src" data-ppp data-ppp-gal="1"></code></pre>
+                </div>
                 </div>
                 <br>
                 <div class="row margin">
                     <div class="col-6">
                         <a>
-                            <img src="img/01.jpg" data-ppp data-ppp-gal="Thethirdgal" data-ppp-title="I am on the right" data-ppp-pos="right">
+                            <img src="img/01.jpg" data-ppp data-ppp-gal="Thethirdgal" data-ppp-title="I have title">
                         </a>
                         <a>
-                            <img src="img/02.jpg" data-ppp data-ppp-gal="Thethirdgal" data-ppp-title="And i am on the right too" data-ppp-pos="right">
+                            <img src="img/02.jpg" data-ppp data-ppp-gal="Thethirdgal" data-ppp-title="I have title too">
                         </a>
                     </div>
-                    <div class="col-6">Вы так же можете комбинировать все выше перечисленные аттрибуты</div>
+                    <div class="col-6">You can also combine all of these attributes for all your needs.</div>
                 </div>
                 <br>
                 <div class="row margin">
@@ -139,6 +133,20 @@
                             <img src="img/01.jpg" id="theid">
                         </a>
                     </div>
+                </div>
+                <div class="row margin">
+                    <div class="col-6">
+                        <form data-ppp data-ppp-form id="cut">
+                            <label for="fname">First name:</label><br>
+                            <input type="text" id="fname" name="fname"><br>
+                            <label for="lname">Last name:</label><br>
+                            <input type="text" id="lname" name="lname">
+                        </form>
+                    </div>
+                    <div class="col-6">
+                        For form we added data-ppp-form
+                    </div>
+                    <button data-ppp-form data-ppp-id="cut">click me for form</button>
                 </div>
             </div>
         </div>

@@ -21,7 +21,7 @@ function checkGallery(item) {
         var arrowhldr = document.createElement('div');
         arrowhldr.className = "ppp_cntrls";
         arrowhldr.innerHTML = '<div class="ppp_prev_btn" onclick="showimg(-1)">〈</div>     <div class="ppp_next_btn" onclick="showimg(1)">〉</div>'; //create elements that control our gallery
-        document.getElementsByTagName("figure")[0].appendChild(arrowhldr);
+        Array.from(document.querySelectorAll("figure")).pop().appendChild(arrowhldr);
         ArrAllGalAttr.forEach((item, index) => {
             if (item.classList.contains('opened')) {
                 currentImgIndex = index; // index of the current image
@@ -37,8 +37,7 @@ function GetSomeData() {
             const parser = new DOMParser();
             const htmlDocument = parser.parseFromString(text, "text/html");
             const section = htmlDocument.getElementById(idOfAjax); // element that we are going to append
-            if (section.attributes.src !== undefined || section.attributes.data-src !== undefined) { 
-            // if (section.attributes.src !== null || section.attributes.data-src !== null) { //is img
+            if (section.attributes.src !== undefined || section.attributes.data-src !== undefined) { //is img
 
                 checkTitle(section);
 
@@ -46,16 +45,13 @@ function GetSomeData() {
                 buildMdl(section)
             };
         })
-        //return(section.attributes.src);
 }
 
 function checkImage(item) {
-    //var out;
     let itemsrc = item.getAttribute('src');
     let itemDatasrc = item.getAttribute('data-src');
      
     if(itemsrc || itemDatasrc){
-    // if (item.attributes.src !== undefined || item.attributes.data-src !== undefined) {
         out = document.createElement('img');
         let imgSrc = (itemsrc !== null) ? itemsrc : itemDatasrc;
         out.setAttribute("src", imgSrc)
@@ -64,8 +60,6 @@ function checkImage(item) {
         txtWrap.classList.add("ppp-txtwrap");
         txtWrap.insertAdjacentHTML('beforeend', item.innerHTML)
         out = txtWrap
-        // console.log(item.innerHTML + ' ' + typeof(out))
-            //out = txtWrap.appendChild(item.innerHTML);
     }
     return out
 };
@@ -76,8 +70,6 @@ function buildMdl(pppVal) {
     if (typeof(pppVal) === 'object') { pppVal = pppVal.outerHTML; }
     tmdiv.innerHTML = '<div class="ppp_hldr"><figure class="ppp_inner marginppp">' + pppVal + '</figure><div class="ppp_close">×</div></div>';
     document.body.appendChild(tmdiv);
-    // document.querySelectorAll(".ppp")[0].classList.add('TESTtransition');
-    // setTimeout(function() { document.querySelectorAll(".ppp")[0].classList.remove('TESTtransition') }, 20);
 };
 
 function showimg(n) {
@@ -109,44 +101,66 @@ function showimg(n) {
 }
 
 function checkTitle(item) {
-    // var itemsrc = item.getAttribute('src');
     fgrttl = document.createElement('div');
-    // tmfgr.className = "ppp TESTtransition";
-    // console.log(item.getAttribute("data-ppp-title"))
     if (item.hasAttribute("data-ppp-title")) {
         fgrttl.innerHTML = '<figcaption class="white">' + item.getAttribute('data-ppp-title') + '</figcaption>'; //create figcaption with title
     } else {
         fgrttl.innerHTML = '<figcaption class="white"></figcaption>'; //create figcaption without title
     }
-    //tmfgr.innerHTML = '<figure class="ppp_hldr"><div class="ppp_inner"><img class="marginppp" src="' + itemsrc + '">' + fgrttl +'</div><div class="ppp_close">✕</div></figure>'; //create html with caption
     document.body.getElementsByTagName("figure")[0].appendChild(fgrttl); //append all your structure
-    //setTimeout(function(){document.querySelectorAll(".ppp")[0].classList.remove('TESTtransition')}, 20);
 }
+
+function buildFrm(item) {
+    var mark = document.createElement("div")
+    mark.id = "mark"
+    item.after(mark)
+    item.removeAttribute("data-ppp")
+    item.removeAttribute("data-ppp-form")
+    let txtWrapClass = ''
+    document.body.insertAdjacentHTML('beforeend', '<div class="ppp"><div class="ppp_hldr"><figure class="ppp_inner marginppp '+ txtWrapClass +'" id="ppp"></figure><div class="ppp_close">×</div></div></div>');
+    let pppId =  document.getElementById('ppp')
+    pppId.insertAdjacentElement('afterbegin',item)
+    
+}
+
+
 
 document.addEventListener('click', function(e) {
     ///// find data id
     if (e.target.hasAttribute("data-ppp-id")) {
         var trgtid = e.target.getAttribute('data-ppp-id') //get the value of attribute data-pp-id
-
-        if (document.contains(document.getElementById(trgtid)) && document.getElementById(trgtid).getAttribute('src') != undefined) { //if image
-            var itemid = document.getElementById(trgtid);
-            buildMdl(itemid)
-        } else { //if not image(text)
-            var itemcntnt = document.getElementById(trgtid).innerHTML; //get the content of element
-            buildMdl(itemcntnt)
-        };
-    }
-
-    //-----close
-    // if (e.target && e.target.className == "ppp_close") {
-    if (e.target && ['ppp_close', 'ppp'].includes(e.target.className)) {
-        var ppprem = e.target.closest('.ppp');
-        ppprem.classList.add('ppp_out');
-        setTimeout(function() { ppprem.remove() }, 900);
-        if (opened.classList.contains('opened')) {
-            opened.classList.remove('opened');
+        if (e.target.hasAttribute("data-ppp-form")){
+            var target = document.getElementById(trgtid)
+            buildFrm(target)
+        } else {
+            if (document.contains(document.getElementById(trgtid)) && document.getElementById(trgtid).getAttribute('src') != undefined) { //if image
+                var itemid = document.getElementById(trgtid);
+                buildMdl(itemid)
+            } else { //if not image(text)
+                var itemcntnt = document.getElementById(trgtid).innerHTML; //get the content of element
+                buildMdl(itemcntnt)
+            };
         }
-    }; //close gallery
+    }
+    //-----close
+        if (e.target && ['ppp_close', 'ppp'].includes(e.target.className)) {
+            var ppprem = e.target.closest('.ppp');
+                if(document.getElementById("mark")){
+                    var marked = document.getElementById("mark")
+                    var contents = this.getElementById("ppp").children[0]
+                    contents.setAttribute("data-ppp", "")
+                    contents.setAttribute("data-ppp-form", "")
+                    marked.insertAdjacentElement("afterend", contents)
+                    var parentElement = marked.parentNode
+                    insertedElement = parentElement.insertBefore(contents, marked);
+                    marked.remove()
+                }
+                ppprem.classList.add('ppp_out');
+                setTimeout(function() { ppprem.remove() }, 400);
+                if (opened != undefined) {
+                    opened.classList.remove('opened');
+                }
+        }; //close gallery
 
     hrefOfAjax = e.target.getAttribute("href"); //href to html
     if (e.target.getAttribute("data-href") == "ajax" && hrefOfAjax != undefined) {
@@ -154,25 +168,21 @@ document.addEventListener('click', function(e) {
         trgtAjax = document.querySelector("[data-ajax-id]", idOfAjax)
         GetSomeData(hrefOfAjax);
     };
-    if (e.target.hasAttribute("data-ppp")) {
-        itemcntnt = checkImage(e.target)
-        e.target.classList.add('opened');
-        opened = e.target;
-        buildMdl(itemcntnt)
-        checkTitle(e.target)
-        checkGallery(e.target)
-        if (e.target.hasAttribute("data-ppp-pos")) {
-            // var pppclass = document.querySelector(".ppp"); //get the element with ppp class
-            // pppclass.classList.add
-            // console.log(e.target.getAttribute("data-ppp-pos"))
-            document.getElementsByClassName("ppp_hldr")[0].classList.add(e.target.getAttribute("data-ppp-pos")) // change position of pop-up(by value of data-ppp-pos)
-            
+    
+        if (e.target.hasAttribute("data-ppp")) {
+            if (e.target.hasAttribute("data-ppp-form")){
+                buildFrm(e.target)
+            } else {
+                itemcntnt = checkImage(e.target)
+                e.target.classList.add('opened');
+                opened = e.target;
+                buildMdl(itemcntnt)
+                checkTitle(e.target)
+                checkGallery(e.target)
+            if (e.target.hasAttribute("data-ppp-pos")) {
+                document.getElementsByClassName("ppp_hldr")[0].classList.add(e.target.getAttribute("data-ppp-pos")) // change position of pop-up(by value of data-ppp-pos)
+                
+            }
         }
-
-
-    }
-
-  //   if(e.taget)document.getElementById('ppp').addEventListener('click',function (event){
-  //     event.stopPropagation();
-  //  });
+        }
 });
