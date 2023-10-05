@@ -94,7 +94,7 @@
                             <img src="img/05.jpg" data-ppp data-ppp-gal="firstgal" data-ppp-title="title3">
                         </a>
                     </div>
-                    <div class="col-6">The plugin can also create galleries, just add the <span class="token tag">data-ppp-gallery</span> attribute. Two elements with same value of <span class="token tag">data-pp-gal</span> will make a gallery
+                    <div class="col-6">The plugin can also create galleries, just add the <span class="token tag">data-ppp-gal</span> attribute. Two elements with same value of <span class="token tag">data-pp-gal</span> will make a gallery
                     <pre class="language-markup"><code>&lt;img src="first_src" data-ppp data-ppp-gal="1"></code><code>&lt;img src="second_src" data-ppp data-ppp-gal="1"></code><code>&lt;img src="third_src" data-ppp data-ppp-gal="1"></code></pre>
                 </div>
                 </div>
@@ -106,6 +106,8 @@
                         </a>
                         <a>
                             <img src="img/02.jpg" data-ppp data-ppp-gal="Thethirdgal" data-ppp-title="I have title too">
+                            <img src="img/06.jpg" data-ppp data-ppp-gal="Thethirdgal" data-ppp-title="I have title too2">
+                            <img src="img/07.jpg" data-ppp data-ppp-gal="Thethirdgal" data-ppp-title="I have title too3">
                         </a>
                     </div>
                     <div class="col-6">You can also combine all of these attributes for all your needs.</div>
@@ -113,25 +115,26 @@
                 <br>
                 <div class="row margin">
                     <div class="col-6">
-                        <button onmouseover="this.innerHtml='Another button'" data-href="ajax" href="data.html" data-ajax-id="cliffTxt">Button</button>
+                        <button onmouseover="this.innerHtml='Another button'" data-href="ajax" href="data.html" data-ajax-id="cliffTxt">Click me for text (ajax)</button>
                     </div>
-                    <div class="col-6">Но если вы собираетесь работать с ajax, вам прийдеться использовать другие аттрибуты. Data-href="ajax" используеться для указаня, что для задачи нам потребуеться ajax, а href="data.html" укажет сайт, на котором нужно искать элемент,
-                        а data-ajax-id уже укажет элемент который нам нужен(при помощи ID).</div>
+                    <div class="col-6">When you work with ajax you will have to use other attributes. <span class="token tag">Data-href="ajax"</span> is used to indicate that we require ajax for the task, and <span class="token tag">href="data.html"</span> specifies the site where the element needs to be found,
+                        <span class="token tag">data-ajax-id</span> already specifies the element we need.</div>
                 </div>
                 <div class="row margin">
                     <div class="col-6">
-                        <button onmousehover="this.innerHtml='Button'" data-href="ajax" href="data.html" data-ajax-id="cliff">Button</button>
+                        <button onmousehover="this.innerHtml='Button'" data-href="ajax" href="data.html" data-ajax-id="cliff">Click me for image (ajax)</button>
                     </div>
-                    <div class="col-6">Вы так же можете это использовать для картинок.</div>
+                    <div class="col-6">You can also use it for images
+                        <pre class="language-markup"><code>&lt;button data-href="ajax" href="data.html" data-ajax-id="id"></code></pre>
+                    </div>
                 </div>
                 <div class="row margin">
                     <div class="col-6">
-                        <button data-ppp-id="theid">Button</button>
+                        <button data-ppp-id="theid">Click me for image(id)</button>
                     </div>
                     <div class="col-6">
-                        <a>
-                            <img src="img/01.jpg" id="theid">
-                        </a>
+                        There is also <span class="token tag">data-ppp-id</span>. This data attribute opens an element on the page with the same id value when clicked
+                        <pre class="language-markup"><code>&lt;button data-ppp-id="theid"></code></pre>
                     </div>
                 </div>
                 <div class="row margin">
@@ -144,9 +147,17 @@
                         </form>
                     </div>
                     <div class="col-6">
-                        For form we added data-ppp-form
+                        For form we added data-ppp-form. Forms opened in this way save all changes made by the user
+                        <pre class="language-markup"><code>&lt;form data-ppp data-ppp-form></code></pre>
                     </div>
-                    <button data-ppp-form data-ppp-id="cut">click me for form</button>
+                </div>
+                <div class="row margin">
+                    <div class="col-6">
+                    <button data-ppp-form data-ppp-id="cut">click me for form.</button>
+                    </div>
+                    <div class="col-6">
+                        Forms can also be opened using a button or any other clickable elements thanks to data-ppp-id 
+                    </div>
                 </div>
             </div>
         </div>

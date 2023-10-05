@@ -1,7 +1,12 @@
 :root{
-    --ppp-bg:#fff;
+    --ppp-bg:#222;
     --ppp-brdr:#fff 5px solid;
-    --ppp-clr: #fff;
+    --ppp-title: #333;
+    --ppp-title-bg: #fff;
+    --ppp-btns: #fff;
+    --ppp-loader:#555;
+    --ppp-x-size: 2.5rem;
+    --ppp-txt-padd: 20px;
     }
     img{
         max-width:100%
@@ -53,10 +58,10 @@
     }
     .ppp_close{
         position:absolute;
-        color:var(--ppp-clr);
+        color:var(--ppp-btns);
         top:-.1em;
         right:-.1em;
-        font-size:2.5rem;
+        font-size:var(--ppp-x-size);
         font-weight: 600;
         cursor:pointer;
         -webkit-text-stroke: 1px #00000054;
@@ -86,13 +91,12 @@
         display:block;
         white-space:normal;
         padding:10px;
-        background-color:var(--ppp-bg);
+        background-color:var(--ppp-title-bg);
         margin:10px 0
     }
-    .white{
-        background-color:var(--ppp-bg)
-    }
+    
     .ppp figcaption{
+        background-color: var(--ppp-title-bg);
         padding:10px 5px 5px 5px;
         width: min-content;
         min-width: 100%;
@@ -116,7 +120,7 @@
         border:none;
         border-radius: 0;
         font-weight: 100;
-        color:var(--ppp-clr);
+        color:var(--ppp-btns) !important;
         height:100%;
         pointer-events:all;
         position:absolute;
@@ -139,42 +143,66 @@
         opacity:1;
         transform:scaleX(1.6) scaleY(1.1)
     }
-    .ppp_next_btn{
+    .ppp_next{
         background:linear-gradient(to right,rgba(0,0,0,0),rgba(0,0,0,.5));
         right:-.7em
     }
-    .ppp_prev_btn{
+    .ppp_prev{
         background:linear-gradient(to left,rgba(0,0,0,0),rgba(0,0,0,.5));
         left:-.7em
     }
-    .ppp_next_btn::before{
+    .ppp_next::before{
         left:-10%
     }
-    .ppp_prev_btn::before{
+    .ppp_prev::before{
         right:-10%
     }
-    .center{
-        text-align:center
-    }
-    .margin{
-        margin-bottom:1vw
-    }
-    .ppp_inner{
+    #ppp{
         margin:0;
         opacity:1
     }
-    .ppp_inner>img.-opaq{
-        opacity:0;
-        transition: none;
-    }
-    .ppp_inner>img{
+    #ppp:has(.ppp_txtwrap) + .ppp_close, .ppp_txtwrap + .ppp_close {-webkit-text-stroke:none; color:var(--ppp-title)}
+    .ppp_loader:not(.ppp_fade):before { content: ''; top: 50%; left: 50%; margin: -24px auto auto -24px;
+        position: absolute;
+        width: 48px;
+        height: 48px;
+        background: var(--ppp-loader);
+        box-sizing: border-box;
+        animation: flipX 1s linear infinite;
+      }
+      @keyframes flipX {
+        0% {
+          transform: perspective(200px) rotateX(0deg) rotateY(0deg);
+        }
+        50% {
+          transform: perspective(200px) rotateX(-180deg) rotateY(0deg);
+        }
+        100% {
+          transform: perspective(200px) rotateX(-180deg) rotateY(-180deg);
+        }
+      }
+          
+    .marginppp>img{
         display:block;
         opacity:1;
-        transition:opacity ease .3s;
+        transition:all ease .2s;
+        object-fit: cover;
     }
-    .ppp-txtwrap{
-        background: var(--ppp-bg);
-        padding:7px 45px 7px 20px
-    }
+    .ppp_loader>img {opacity: 2; }
+    .ppp_fade>img{opacity: 0;}
     
-      
+    .ppp_txtwrap{
+        background: var(--ppp-title-bg);
+        padding:calc(var(--ppp-x-size)*1.4) var(--ppp-txt-padd) var(--ppp-txt-padd)
+    }
+    button{
+            border-radius: 5px;
+            border: none;
+            padding: 14px 24px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 4px 2px;
+            cursor: pointer;
+    }    

@@ -10,7 +10,9 @@ var lnghtofarr; // the lenght of ArrAllGalAttr ^
 var hrefOfAjax; //href to the right html on the server
 var idOfAjax; //used to get element with right id
 var trgtAjax;
-
+var maxw = window.innerWidth*.9
+var maxh = window.innerHeight*.9
+window.addEventListener("resize", ()=>{maxw = window.innerWidth*.9; maxh = window.innerHeight*.9;})
 // create an gallery if there is attribute data-ppp-gal
 function checkGallery(item) {
     if (item.hasAttribute("data-ppp-gal")) {
@@ -20,8 +22,9 @@ function checkGallery(item) {
         lnghtofarr = ArrAllGalAttr.length;
         var arrowhldr = document.createElement('div');
         arrowhldr.className = "ppp_cntrls";
-        arrowhldr.innerHTML = '<div class="ppp_prev_btn" onclick="showimg(-1)">〈</div>     <div class="ppp_next_btn" onclick="showimg(1)">〉</div>'; //create elements that control our gallery
+        arrowhldr.innerHTML = '<div class="ppp_prev" onclick="showimg(-1)">〈</div>     <div class="ppp_next" onclick="showimg(1)">〉</div>'; //create elements that control our gallery
         Array.from(document.querySelectorAll("figure")).pop().appendChild(arrowhldr);
+		
         ArrAllGalAttr.forEach((item, index) => {
             if (item.classList.contains('opened')) {
                 currentImgIndex = index; // index of the current image
@@ -50,14 +53,13 @@ function GetSomeData() {
 function checkImage(item) {
     let itemsrc = item.getAttribute('src');
     let itemDatasrc = item.getAttribute('data-src');
-     
     if(itemsrc || itemDatasrc){
         out = document.createElement('img');
         let imgSrc = (itemsrc !== null) ? itemsrc : itemDatasrc;
         out.setAttribute("src", imgSrc)
     } else {
         var txtWrap = document.createElement('div');
-        txtWrap.classList.add("ppp-txtwrap");
+        txtWrap.classList.add("ppp_txtwrap");
         txtWrap.insertAdjacentHTML('beforeend', item.innerHTML)
         out = txtWrap
     }
@@ -68,13 +70,13 @@ function buildMdl(pppVal) {
     var tmdiv = document.createElement('div');
     tmdiv.className = "ppp";
     if (typeof(pppVal) === 'object') { pppVal = pppVal.outerHTML; }
-    tmdiv.innerHTML = '<div class="ppp_hldr"><figure class="ppp_inner marginppp">' + pppVal + '</figure><div class="ppp_close">×</div></div>';
+    tmdiv.innerHTML = '<div class="ppp_hldr"><figure id="ppp" class="marginppp">' + pppVal + '</figure><div class="ppp_close">×</div></div>';
     document.body.appendChild(tmdiv);
 };
 
 function showimg(n) {
-    var fndpppinner = document.getElementsByClassName('ppp_inner'); //Looking for pop-up
-    var pppImg = fndpppinner[0].getElementsByTagName('img'); //looking for image in pop-up
+    var fndpppinner = document.getElementById('ppp'); //Looking for pop-up
+    var pppImg = fndpppinner.getElementsByTagName('img'); //looking for image in pop-up
     var sumofIndex = (currentImgIndex + n); // this thing will scroll your images(if it is gallery)
     currentImgIndex = sumofIndex;
     if (currentImgIndex == lnghtofarr) { //if we try to scroll more images than we have
@@ -83,15 +85,41 @@ function showimg(n) {
     if (currentImgIndex == -1) { //if we try to scroll less images than we have
         currentImgIndex = lnghtofarr - 1; //we will scroll to the last image
     }
-
-    pppImg[0].classList.add('-opaq');
+	
     let itemsrc = ArrAllGalAttr[currentImgIndex].getAttribute('src');
     let itemDatasrc = ArrAllGalAttr[currentImgIndex].getAttribute('data-src');
     let currrentImgSrc = (itemsrc !== null) ? itemsrc : itemDatasrc; //Looking for src of next/previous image
 
-    pppImg[0].src = currrentImgSrc; // changing pop-up image
-    setTimeout(function() { pppImg[0].classList.remove('-opaq') }, 100);
-    var imgcaption = fndpppinner[0].getElementsByTagName('figcaption'); //looking for title/caption of pop-up
+	let pppImg2 = new Image()
+	pppImg2.src = currrentImgSrc
+
+    //pppImg[0].setAttribute('style', 'width:'+pppImg[0].pppImg2W +'px;height:'+pppImg[0].pppImg2H +'px')
+    pppImg[0].setAttribute('style', 'width:'+pppImg[0].offsetWidth +'px;height:'+pppImg[0].offsetHeight +'px')
+    fndpppinner.classList.add('ppp_loader');
+    // pppImg[0].classList.add('-opaq');
+	pppImg2.onload = function(){
+    	fndpppinner.classList.add('ppp_fade');
+    	fndpppinner.classList.remove('ppp_loader');
+
+        let aRatio = pppImg2.width/pppImg2.height
+        let pppImg2W = (maxw < pppImg2.width ) ? maxw : pppImg2.width
+        let pppImg2H = (maxh < pppImg2.height ) ? maxh : pppImg2.height
+
+        if(pppImg2H*aRatio > pppImg2W){ pppImg2H = pppImg2W/aRatio}else{pppImg2W = pppImg2H*aRatio}
+    
+		let srcIn
+		let fadeOut
+		clearTimeout(srcIn)
+		clearTimeout(fadeOut)
+		srcIn = setTimeout(function(){pppImg[0].src = currrentImgSrc
+            pppImg[0].setAttribute('style', 'width:'+pppImg2W +'px;height:'+pppImg2H+'px')
+        }, 200)
+        
+		fadeOut = setTimeout(()=>{fndpppinner.classList.remove('ppp_fade')}, 300)
+		
+		
+	}
+    var imgcaption = fndpppinner.getElementsByTagName('figcaption'); //looking for title/caption of pop-up
     if (ArrAllGalAttr[currentImgIndex].hasAttribute("data-ppp-title")) { //if there is present data-ppp-title
         var currentImgTtl = ArrAllGalAttr[currentImgIndex].getAttribute('data-ppp-title'); //Getting value of title/caption(if present)
         imgcaption[0].innerHTML = currentImgTtl; //changing caption/title of image in pop-up
@@ -102,12 +130,10 @@ function showimg(n) {
 
 function checkTitle(item) {
     fgrttl = document.createElement('div');
-    if (item.hasAttribute("data-ppp-title")) {
-        fgrttl.innerHTML = '<figcaption class="white">' + item.getAttribute('data-ppp-title') + '</figcaption>'; //create figcaption with title
-    } else {
-        fgrttl.innerHTML = '<figcaption class="white"></figcaption>'; //create figcaption without title
-    }
-    document.body.getElementsByTagName("figure")[0].appendChild(fgrttl); //append all your structure
+	let pppTitle = item.hasAttribute("data-ppp-title") ? item.getAttribute("data-ppp-title") : ''
+
+	fgrttl.innerHTML = '<figcaption>' + pppTitle + '</figcaption>'; //create figcaption with title
+    document.getElementById("ppp").appendChild(fgrttl); //append all your structure
 }
 
 function buildFrm(item) {
@@ -117,8 +143,8 @@ function buildFrm(item) {
     item.removeAttribute("data-ppp")
     item.removeAttribute("data-ppp-form")
     let txtWrapClass = ''
-    document.body.insertAdjacentHTML('beforeend', '<div class="ppp"><div class="ppp_hldr"><figure class="ppp_inner marginppp '+ txtWrapClass +'" id="ppp"></figure><div class="ppp_close">×</div></div></div>');
-    let pppId =  document.getElementById('ppp')
+    document.body.insertAdjacentHTML('beforeend', '<div class="ppp"><div class="ppp_hldr"><figure id="ppp" class="ppp_txtwrap marginppp '+ txtWrapClass +'"></figure><div class="ppp_close">×</div></div></div>');
+    let pppId =  document.getElementById("ppp")
     pppId.insertAdjacentElement('afterbegin',item)
     
 }
@@ -148,7 +174,7 @@ document.addEventListener('click', function(e) {
                 if(document.getElementById("mark")){
                     var marked = document.getElementById("mark")
                     var contents = this.getElementById("ppp").children[0]
-                    contents.setAttribute("data-ppp", "")
+                    contents.setAttribute('data-ppp', "")
                     contents.setAttribute("data-ppp-form", "")
                     marked.insertAdjacentElement("afterend", contents)
                     var parentElement = marked.parentNode
